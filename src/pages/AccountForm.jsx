@@ -11,6 +11,8 @@ const AccountForm = () => {
 
   const [isSignIn, setIsSignIn] = useState(true);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // success | error
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,89 +27,134 @@ const AccountForm = () => {
     showObserver();
   }, []);
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    let requestData;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^09\d{8}$/;
 
-    if (!isSignIn) {
-      const { name, email, password, confirmPassword, subcity, city, phoneNo } =
-        formData;
+  let requestData;
 
-      if (
-        !name ||
-        !email ||
-        !password ||
-        !confirmPassword ||
-        !subcity ||
-        !city ||
-        !phoneNo
-      ) {
-        setMessage("All fields are required.");
-        return;
-      }
+  if (!isSignIn) {
+    const { name, email, password, confirmPassword, subcity, city, phoneNo } =
+      formData;
 
-      if (password !== confirmPassword) {
-        setMessage("Passwords do not match.");
-        return;
-      }
-      if (password < 6) {
-        setMessage("Password must be at least 6 characters long.");
-        return;
-      }
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !subcity ||
+      !city ||
+      !phoneNo
+    ) {
+      setMessage("All fields are required.");
+      setMessageType("error");
+      return;
+    }
 
-      requestData = formData;
+    if (!emailRegex.test(email)) {
+      setMessage("Invalid email format.");
+      setMessageType("error");
+      return;
+    }
+
+    if (!phoneRegex.test(phoneNo)) {
+      setMessage("Phone number must start with 09 and be 10 digits long.");
+      setMessageType("error");
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters long.");
+      setMessageType("error");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      setMessageType("error");
+      return;
+    }
+
+    requestData = formData;
+
+  } else {
+    const { email, password } = formData;
+
+    if (!email || !password) {
+      setMessage("Email and password are required.");
+      setMessageType("error");
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setMessage("Invalid email format.");
+      setMessageType("error");
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters long.");
+      setMessageType("error");
+      return;
+    }
+
+    requestData = { email, password };
+  }
+
+  try {
+    let response;
+    if (isSignIn) {
+      response = await axiosInstance.post("user/login", requestData);
     } else {
-      const { email, password } = formData;
-
-      if (!email || !password) {
-        setMessage("Email and password are required.");
-        return;
-      }
-
-      requestData = { email, password };
+      response = await axiosInstance.post("user/signup", requestData);
     }
 
-    try {
-      let response;
-      if (isSignIn) {
-        const url = "user/login";
-        response = await axiosInstance.post(url, requestData);
-      } else {
-        const url = "user/signup";
-        response = await axiosInstance.post(url, requestData);
-      }
-
-      if (response.data.message === "Login successful") {
-        login({ user: response.data.user, token: response.data.token });
-        navigate("/");
-      } else if (response.data.message === "Sign-up successful") {
-        setMessage("Sign-up successful! Please log in.");
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          subcity: "",
-          city: "",
-          phoneNo: "",
-        });
-        setIsSignIn(true);
-      } else {
-        setMessage(response.data.message || "Something happened.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setMessage(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+    if (response.data.message === "Login successful") {
+      login({ user: response.data.user, token: response.data.token });
+      navigate("/");
+    } else if (response.data.message === "Sign-up successful") {
+      setMessage("Sign-up successful! Please log in.");
+      setMessageType("success");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        subcity: "",
+        city: "",
+        phoneNo: "",
+      });
+      setIsSignIn(true);
+    } else {
+      setMessage(response.data.message || "Something happened.");
+      setMessageType("error");
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    setMessage(
+      error.response?.data?.message || "An error occurred. Please try again."
+    );
+    setMessageType("error");
+  }
+};
+
 
   return (
     <div className="wrappouter hidden-sec">
@@ -131,7 +178,7 @@ const AccountForm = () => {
         </div>
 
         <div className="belowbutton">
-          {message && <p className="message">{message}</p>}
+          {message && <p className={`message ${messageType}`}>{message}</p>}
 
           {isSignIn ? (
             <form className="sign-in-form" onSubmit={handleSubmit}>
@@ -142,7 +189,6 @@ const AccountForm = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <label>
@@ -152,7 +198,6 @@ const AccountForm = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <button className="secondary-btn" type="submit">
@@ -178,18 +223,15 @@ const AccountForm = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <label>
-                phone:
+                Phone:
                 <input
                   type="text"
                   name="phoneNo"
-                  pattern="09[0-9]{8}"
                   value={formData.phoneNo}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <label>
@@ -199,7 +241,6 @@ const AccountForm = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <label>
@@ -209,7 +250,6 @@ const AccountForm = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  required
                 />
               </label>
               <label>
