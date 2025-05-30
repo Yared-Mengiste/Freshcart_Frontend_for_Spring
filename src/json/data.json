@@ -1,0 +1,471 @@
+{
+  "tables": {
+    "account_type": [
+      { "id": 1, "name": "user" },
+      { "id": 2, "name": "admin" },
+      { "id": 3, "name": "driver" }
+    ],
+    "contact_submissions": [
+      {
+        "id": 1,
+        "name": "YARED",
+        "email": "yaredmengiste@gmail.com",
+        "message": "this app is ass",
+        "created_at": "2025-02-13 13:35:18"
+      },
+      {
+        "id": 2,
+        "name": "yassa",
+        "email": "yass@gmail.com",
+        "message": "Abenezer is a B**ch",
+        "created_at": "2025-02-13 20:40:31"
+      }
+    ],
+    "delivery": [
+      {
+        "id": 2,
+        "order_id": 8,
+        "user_id": 1,
+        "driver_id": 7,
+        "created_at": "2025-02-15 12:52:29",
+        "status": "pending"
+      }
+    ],
+    "order_items": [
+      {
+        "id": 23,
+        "order_id": 8,
+        "product_id": 13,
+        "quantity": 6,
+        "price": 75.0
+      },
+      {
+        "id": 24,
+        "order_id": 8,
+        "product_id": 14,
+        "quantity": 6,
+        "price": 50.0
+      }
+     
+    ],
+    "orders": [
+      {
+        "id": 8,
+        "user_id": 12,
+        "total_price": 2575.0,
+        "created_at": "2025-02-15 12:52:29"
+      },
+      {
+        "id": 9,
+        "user_id": 10,
+        "total_price": 285.0,
+        "created_at": "2025-02-16 11:09:10"
+      }
+    ],
+    "product_category": [
+      { "id": 1, "name": "vegetable" },
+      { "id": 2, "name": "fruit" },
+      { "id": 3, "name": "cereal and grain" },
+      { "id": 4, "name": "animal product" }
+    ],
+    "products": [
+      {
+        "id": 1,
+        "name": "Apple",
+        "price": 250,
+        "img": "apple.jpg",
+        "category": 2
+      },
+      {
+        "id": 2,
+        "name": "Avocado",
+        "price": 70,
+        "img": "avocado.jpg",
+        "category": 2
+      },
+      {
+        "id": 3,
+        "name": "Banana",
+        "price": 60,
+        "img": "banana.jpg",
+        "category": 2
+      },
+      {
+        "id": 4,
+        "name": "Grapes",
+        "price": 80,
+        "img": "grapes.jpg",
+        "category": 2
+      },
+      {
+        "id": 5,
+        "name": "Orange",
+        "price": 120,
+        "img": "orange.jpg",
+        "category": 2
+      },
+      {
+        "id": 6,
+        "name": "Pineapple",
+        "price": 200,
+        "img": "pineapple.jpg",
+        "category": 2
+      },
+      {
+        "id": 7,
+        "name": "Barley",
+        "price": 50,
+        "img": "barley.jpg",
+        "category": 3
+      },
+      {
+        "id": 8,
+        "name": "Corn",
+        "price": 65,
+        "img": "corn.jpg",
+        "category": 3
+      },
+      {
+        "id": 9,
+        "name": "Oats",
+        "price": 99,
+        "img": "oats.jpg",
+        "category": 3
+      },
+      {
+        "id": 10,
+        "name": "Rice",
+        "price": 126,
+        "img": "rice.jpg",
+        "category": 3
+      },
+      { "id": 11, "name": "Rye", "price": 85, "img": "rye.jpg", "category": 3 },
+      {
+        "id": 12,
+        "name": "Wheat",
+        "price": 100,
+        "img": "wheat.jpg",
+        "category": 3
+      },
+      {
+        "id": 13,
+        "name": "Onion",
+        "price": 75,
+        "img": "onion.jpg",
+        "category": 1
+      },
+      {
+        "id": 14,
+        "name": "Potato",
+        "price": 50,
+        "img": "potato.jpg",
+        "category": 1
+      },
+      {
+        "id": 15,
+        "name": "Tomato",
+        "price": 35,
+        "img": "tomato.jpg",
+        "category": 1
+      },
+      {
+        "id": 16,
+        "name": "Brocolli",
+        "price": 120,
+        "img": "brocolli.jpg",
+        "category": 1
+      },
+      {
+        "id": 17,
+        "name": "Carrot",
+        "price": 40,
+        "img": "carrot.jpg",
+        "category": 1
+      },
+      {
+        "id": 18,
+        "name": "Cucumber",
+        "price": 60,
+        "img": "cucumber.jpg",
+        "category": 1
+      },
+      {
+        "id": 19,
+        "name": "Yogurt",
+        "price": 120,
+        "img": "yogurt.jpg",
+        "category": 4
+      },
+      { "id": 20, "name": "Egg", "price": 12, "img": "egg.jpg", "category": 4 },
+      {
+        "id": 21,
+        "name": "Milk",
+        "price": 110,
+        "img": "milk.jpg",
+        "category": 4
+      },
+      {
+        "id": 22,
+        "name": "Butter",
+        "price": 800,
+        "img": "butter.jpg",
+        "category": 4
+      },
+      {
+        "id": 27,
+        "name": "Strawberry",
+        "price": 255,
+        "img": "strawberry.png",
+        "category": 2
+      },
+      {
+        "id": 28,
+        "name": "Watermelon",
+        "price": 115,
+        "img": "watermelon.png",
+        "category": 2
+      },
+      {
+        "id": 29,
+        "name": "Papaya",
+        "price": 125,
+        "img": "papaya.png",
+        "category": 2
+      }
+    ],
+    "shop": [
+      {
+        "id": 1,
+        "name": "Shewa",
+        "city": "Addis Ababa",
+        "subcity": "Kolfe Keranio",
+        "owner": "abebe hailu",
+        "email": "abebehailu@gmail.com",
+        "phone_no": "phone_no"
+      },
+      {
+        "id": 2,
+        "name": "Abadir",
+        "city": "Addis Ababa",
+        "subcity": "Arada",
+        "owner": "Amanuel T.",
+        "email": "freshman@example.com",
+        "phone_no": "0912345678"
+      },
+      {
+        "id": 3,
+        "name": "Queens",
+        "city": "Addis Ababa",
+        "subcity": "Bole",
+        "owner": "Selam G.",
+        "email": "greengrocery@example.com",
+        "phone_no": "0913456789"
+      },
+      {
+        "id": 4,
+        "name": "Shewa",
+        "city": "Addis Ababa",
+        "subcity": "Kirkos",
+        "owner": "Mulu A.",
+        "email": "superveggies@example.com",
+        "phone_no": "0914567890"
+      },
+      {
+        "id": 5,
+        "name": "Queens",
+        "city": "Addis Ababa",
+        "subcity": "Lideta",
+        "owner": "Tesfaye K.",
+        "email": "meatking@example.com",
+        "phone_no": "0915678901"
+      },
+      {
+        "id": 6,
+        "name": "Fantu SM",
+        "city": "Addis Ababa",
+        "subcity": "Gulele",
+        "owner": "Hanna Y.",
+        "email": "citymarket@example.com",
+        "phone_no": "0916789012"
+      },
+      {
+        "id": 7,
+        "name": "Safeway",
+        "city": "Addis Ababa",
+        "subcity": "Yeka",
+        "owner": "Bereket M.",
+        "email": "farmfresh@example.com",
+        "phone_no": "0917890123"
+      },
+      {
+        "id": 8,
+        "name": "Daily Needs",
+        "city": "Addis Ababa",
+        "subcity": "Nifas Silk-Laflo",
+        "owner": "Mekonnen Z.",
+        "email": "dailyneeds@example.com",
+        "phone_no": "0918901234"
+      },
+      {
+        "id": 9,
+        "name": "Mafi",
+        "city": "Addis Ababa",
+        "subcity": "Addis Ketema",
+        "owner": "Abel H.",
+        "email": "dairydelight@example.com",
+        "phone_no": "0910123456"
+      },
+      {
+        "id": 10,
+        "name": "Eyoha",
+        "city": "Addis Ababa",
+        "subcity": "Akaky Kaliti",
+        "owner": "Sisay W.",
+        "email": "organicmarket@example.com",
+        "phone_no": "0911234567"
+      }
+    ],
+    "users": [
+      {
+        "id": 5,
+        "name": "yadaaa",
+        "email": "yaredmengiste01@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Kolfe Keranio",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 1,
+        "phone": "0922415744"
+      },
+      {
+        "id": 6,
+        "name": "solomon cheru",
+        "email": "solomon@gmail.com",
+        "city": "Addis Ababa",
+        "address": "kolfe keranio",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 2,
+        "phone": "0922415744"
+      },
+      {
+        "id": 7,
+        "name": "Daniel Abebe",
+        "email": "daniel@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Kolfe Keranio",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0922415744"
+      },
+      {
+        "id": 10,
+        "name": "yasser",
+        "email": "yasser@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Kolfe Keranio",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 2,
+        "phone": "0922415744"
+      },
+      {
+        "id": 12,
+        "name": "abebe",
+        "email": "abebe@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Kolfe Keranio",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 1,
+        "phone": "0925325744"
+      },
+      {
+        "id": 23,
+        "name": "Abebe Kebede",
+        "email": "abebek@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Addis Ketema",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0912345678"
+      },
+      {
+        "id": 24,
+        "name": "Bezawit Tadesse",
+        "email": "bezawit@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Akaky Kaliti",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0923456789"
+      },
+      {
+        "id": 25,
+        "name": "Dawit Mekonnen",
+        "email": "dawit@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Arada",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0934567890"
+      },
+      {
+        "id": 26,
+        "name": "Fikadu Tesfaye",
+        "email": "fikadu@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Bole",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0945678901"
+      },
+      {
+        "id": 27,
+        "name": "Genet Alemu",
+        "email": "genet@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Gulele",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0956789012"
+      },
+      {
+        "id": 28,
+        "name": "Habtamu Bekele",
+        "email": "habtamu@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Kirkos",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0967890123"
+      },
+      {
+        "id": 30,
+        "name": "Kalkidan Worku",
+        "email": "kalkidan@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Lideta",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0989012345"
+      },
+      {
+        "id": 31,
+        "name": "Lemma Haile",
+        "email": "lemma@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Nifas Silk-Lafto",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0990123456"
+      },
+      {
+        "id": 32,
+        "name": "Mekdes Getachew",
+        "email": "mekdes@gmail.com",
+        "city": "Addis Ababa",
+        "address": "Yeka",
+        "password": "81dc9bdb52d04dc20036dbd8313ed055",
+        "account_type": 3,
+        "phone": "0911122334"
+      }
+    ]
+  }
+}

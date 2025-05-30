@@ -1,0 +1,146 @@
+footer * {
+    background: #333;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer  {
+    color: #fff;
+    background: #121315;
+}
+
+footer p {
+    color: #ccc;
+    max-width: 25em;
+    font-size: 0.9em;
+    line-height: 23px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2em;
+}
+
+.footer2 .container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2em;
+}
+
+.footer2 .menu {
+    margin-bottom: 3em;
+
+}
+
+.footer2 .menu li {
+    display: inline-block;
+    margin: 0 0.7em 0.7em 0;
+    text-align: center;
+}
+
+.footer2 .menu a {
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+.footer2 .menu a:hover {
+    color: #118c0b;
+}
+
+
+.brand {
+    display: block;
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.media-icons li,
+.service-icons li {
+    display: inline-block;
+    margin: 0.5em 0.5em 0.5em 0;
+}
+
+.meida-icons a {
+    font-size: 1.1em;
+    width: 2em;
+    height: 2em;
+    border: 1px #fff solid;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.media-icons a:hover {
+    background: #fff;
+    color: #118c0b;
+}
+
+.service-icons a {
+    font-size: 2.2rem;
+}
+
+.service-icons a:hover {
+    color: #dbdbdb;
+}
+
+.input-wrap {
+    margin: 1em 0;
+    display: flex;
+}
+
+.input-wrap input {
+    padding: 0.5em;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    background: #20232a;
+    color: #ccc;
+}
+
+.input-wrap input:focus {
+    outline: none;
+}
+
+
+.input-wrap a {
+    height: 32px;
+    align-content: center;
+    align-self: center;
+    padding: 5px;
+    /* background: #ff2b00; */
+    box-shadow: none;
+    border-radius: 0 10px 10px 0;
+}
+
+.input-wrap a:hover {
+    /* background: #fff; */
+    border: 1px solid green;
+    color: #111;
+}
+footer a:link,
+footer a:visited {
+    color: #118c0b;
+    text-decoration: none;
+    padding-bottom: 1px;
+    /* border-bottom: 1px solid #118c0b; */
+    transition: border-bottom 0.2s, color 0.2s;
+}
+
+footer a:hover,
+footer a:active {
+    color: #555;
+    border-bottom: 1px solid green;
+}

@@ -1,0 +1,21 @@
+.admin-container{
+    background-color: #ffffff;
+}
+.admin-container input, .admin-container select{
+    /* style={{ maxWidth: "250px", height: "40px" }} */
+    max-width: 250px;
+    min-width: 100px;
+    height: 40px;
+}
+.new-product{
+    /* style={{display:"flex",flexDirection: 'row',gap:'10px', justifyContent:'space-between'}} */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+.admin-container button{
+    height: 45px;
+    margin-bottom: 5px;
+}

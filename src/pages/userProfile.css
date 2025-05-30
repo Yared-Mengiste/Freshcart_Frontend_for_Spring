@@ -1,0 +1,26 @@
+.edit-profile{
+ background-image: linear-gradient(#000000a9, #000000a9),
+  url("../assets/Grocery.jpg") ;
+  height: 100vh;
+  align-content: center;
+}
+.profile-contain {
+  width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  align-content: center;
+
+}
+
+.profile-contain .message {
+  color: green;
+  font-weight: bold;
+}
+
+.profile-contain button{
+    width: 200px;
+    margin: 5px;
+}
