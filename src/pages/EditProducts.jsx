@@ -1,54 +1,59 @@
-import React from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useProducts } from "../context/ProductsProvider";
 import "../components/product.css";
+import showObserver from "../animation";
 
-const EditProducts = (props) => {
-  const [newPrice, setNewPrice] = React.useState("");
+const EditProducts = ({ id, name, price, img }) => {
+  const [newPrice, setNewPrice] = useState(price);
+  const { updateProduct } = useProducts(); // from context
+
+  // Update local input field when price prop changes
+  useEffect(() => {
+    setNewPrice(price);
+  }, [price]);
+  useEffect(() => {
+    showObserver();
+  }, []);
+
   const updatePrice = async (e) => {
     e.preventDefault();
-
-    alert(response.data.message);
-    props.setProducts(
-      props.products.map((product) =>
-        product.id === props.id ? { ...product, price: newPrice } : product
-      )
-    );
+    try {
+      await updateProduct(id, { price: parseFloat(newPrice) });
+      alert("Price updated successfully!");
+    } catch (error) {
+      console.error("Failed to update price", error);
+      alert("Failed to update price.");
+    }
   };
-  React.useEffect(() => {
-    setNewPrice(props.price);
-  }, [props.price]);
+
   return (
     <div className="relation-container">
       <div className="product-card">
         <img
-          src={`/images/${props.img}`}
-          alt={props.name}
+          src={`/images/${img}`}
+          alt={name}
           className="product-image"
         />
         <div className="description">
           <div>
-            <h3 className="product-name">{props.name}</h3>
-            <p className="product-price">${props.price} / kg</p>
+            <h3 className="product-name">{name}</h3>
+            <p className="product-price">${price} / kg</p>
           </div>
-          <div>
-            <div>
-              <form action="" onSubmit={updatePrice}>
-                <input
-                  style={{ width: "70%", alignSelf: "flex-end" }}
-                  type="number"
-                  min="0"
-                  step={0.05}
-                  value={newPrice}
-                  onChange={(e) => setNewPrice(e.target.value)}
-                  placeholder="new price"
-                  required
-                />
-                <button type="submit" className="primary-btn">
-                  Update
-                </button>
-              </form>
-            </div>
-          </div>
+          <form onSubmit={updatePrice}>
+            <input
+              type="number"
+              min="0"
+              step="0.05"
+              value={newPrice}
+              onChange={(e) => setNewPrice(e.target.value)}
+              placeholder="New price"
+              style={{ width: "70%", marginTop: "10px" }}
+              required
+            />
+            <button type="submit" className="primary-btn">
+              Update
+            </button>
+          </form>
         </div>
       </div>
     </div>

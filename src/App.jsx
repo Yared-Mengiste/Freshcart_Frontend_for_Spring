@@ -42,7 +42,7 @@ useEffect(() => {
                 <Route path="/userProfile" element={<UserProfile />} />
                 <Route
                   path="/admin"
-                  element={<Admin products={products} setProducts={setProducts} />}
+                  element={<Admin />}
                 />
                 <Route path="/orders" element={<UserOrders />} />
                 <Route path="*" element={<h1>Not Found</h1>} />

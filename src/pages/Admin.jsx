@@ -5,7 +5,7 @@ import "./admin.css";
 import "./home.css";
 import "./category.css";
 
-const Admin = (props) => {
+const Admin = () => {
   const [onUsers, changeTo] = useState(true);
 
 
@@ -32,8 +32,6 @@ const Admin = (props) => {
         <div>
           {onUsers ? (
             <ManageProducts
-              products={props.products}
-              setProducts={props.setProducts}
             />
           ) : (
             <Users />

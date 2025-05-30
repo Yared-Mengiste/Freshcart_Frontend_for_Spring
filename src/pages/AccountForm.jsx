@@ -49,21 +49,10 @@ const AccountForm = () => {
         return;
       }
 
-      setMessage("Sign-up successful! Please log in.");
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        address: "",
-        city: "",
-        phone: "",
-      });
-      return;
+      
     }
 
     try {
-      const users = data.tables.users;
       const hashedPassword = md5(formData.password);
 
       const foundUser = users.find(
@@ -204,7 +193,7 @@ const AccountForm = () => {
                 Subcity:
                 <select
                   name="address"
-                  value={formData.address}
+                  value={formData.subcity}
                   onChange={handleInputChange}
                   required
                 >

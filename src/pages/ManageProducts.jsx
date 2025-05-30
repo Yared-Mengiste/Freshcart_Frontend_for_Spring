@@ -1,37 +1,63 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import showObserver from "../animation";
 import EditProducts from "./EditProducts";
 import "./admin.css";
 import "./home.css";
 import "./category.css";
+import { useProducts } from "../context/ProductsProvider";
 
-const ManageProducts = (props) => {
+const ManageProducts = () => {
+  const { products, addProduct } = useProducts(); // ✅ use context
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "2",
     price: "",
     img: "",
   });
-  const [allProducts, setProducts] = useState(props.products);
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
+
   useEffect(() => {
     showObserver();
-    setProducts(
-      props.products.filter((product) => product.name.includes(search))
+  }, []);
+
+  useEffect(() => {
+    if(!products)
+      return 
+    const result = products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
     );
-  }, [search]);
+    setFilteredProducts(result);
+  }, [search, products]);
+
   const handleChange = (e) => {
     setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
   };
+
   const createProduct = async (e) => {
-    e.preventDefault()
-    alert("Product added successfully")
-  }
-  
+    e.preventDefault();
+    try {
+      await addProduct({
+        ...newProduct,
+        price: parseFloat(newProduct.price),
+      });
+      alert("Product added successfully");
+      setNewProduct({
+        name: "",
+        category: "2",
+        price: "",
+        img: "",
+      });
+    } catch (err) {
+      console.error("Failed to add product", err);
+      alert("Failed to add product");
+    }
+  };
 
   return (
     <section>
+      {console.log(products)}
       <div>
         <form className="new-product" onSubmit={createProduct}>
           <input
@@ -46,6 +72,7 @@ const ManageProducts = (props) => {
             type="number"
             name="price"
             min={0}
+            step={0.05}
             value={newProduct.price}
             onChange={handleChange}
             placeholder="price"
@@ -57,9 +84,9 @@ const ManageProducts = (props) => {
             onChange={handleChange}
             required
           >
-            <option value='2'>Fruit</option>
-            <option value='1'>vegetable</option>
-            <option value='3'>Cereal Grain</option>
+            <option value="2">Fruit</option>
+            <option value="1">Vegetable</option>
+            <option value="3">Cereal Grain</option>
             <option value="4">Animal Products</option>
           </select>
           <input
@@ -75,6 +102,7 @@ const ManageProducts = (props) => {
           </button>
         </form>
       </div>
+
       <div
         style={{
           display: "flex",
@@ -93,20 +121,16 @@ const ManageProducts = (props) => {
       </div>
 
       <div className="category-products">
-        {allProducts.map((product) => {
-          return (
-            <div key={product.id} className="hidden-sec">
-              <EditProducts
-                id={product.id}
-                img={product.img}
-                name={product.name}
-                price={product.price}
-                products={props.products}
-                setProducts={props.setProducts}
-              />
-            </div>
-          );
-        })}
+        {filteredProducts.map((product) => (
+          <div key={product.id} className="hidden-sec">
+            <EditProducts
+              id={product.id}
+              img={product.img}
+              name={product.name}
+              price={product.price}
+            />
+          </div>
+        ))}
       </div>
     </section>
   );
