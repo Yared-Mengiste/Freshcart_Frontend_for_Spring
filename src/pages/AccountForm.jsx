@@ -121,9 +121,9 @@ const AccountForm = () => {
   try {
     let response;
     if (isSignIn) {
-      response = await axiosInstance.post("user/login", requestData);
+      response = await axiosInstance.post("users/login", requestData);
     } else {
-      response = await axiosInstance.post("user/signup", requestData);
+      response = await axiosInstance.post("users/register", requestData);
     }
 
     if (response.data.message === "Login successful") {

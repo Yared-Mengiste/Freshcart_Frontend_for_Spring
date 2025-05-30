@@ -1,6 +1,3 @@
-// Contact Us page
-// Simple contact form where users can leave feedback, questions, or suggestions.
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import showObserver from "../animation";
@@ -13,23 +10,50 @@ const ContactForm = () => {
     email: "",
     message: "",
   });
-  useEffect(()=>{
-    showObserver()
-  },[])
 
-  const [errors, setErrors] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState(""); // "success" or "error"
+
+  useEffect(() => {
+    showObserver();
+  }, []);
+
+  const validate = () => {
+    const { name, email, message } = formData;
+
+    if (!name.trim()) return "Name is required.";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return "Invalid email address.";
+    if (message.trim().length < 10) return "Message must be at least 10 characters.";
+
+    return "";
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setStatusMessage("");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent successfully!");
-    setErrors("");
-  }
+    const error = validate();
+    if (error) {
+      setStatusMessage(error);
+      setStatusType("error");
+      return;
+    }
 
+    try {
+      const response = await axios.post("http://localhost:8081/api/contacts", formData);
+      setStatusMessage("Message sent successfully!");
+      setStatusType("success");
 
- 
+      setFormData({ name: "", email: "", message: "" }); // Clear form
+    } catch (err) {
+      setStatusMessage("Failed to send message. Please try again.");
+      setStatusType("error");
+    }
+  };
 
   return (
     <div className="form-container hidden-sec">
@@ -66,8 +90,14 @@ const ContactForm = () => {
             onChange={handleChange}
             required
           />
-          {errors && <small className="error">{errors}</small>}
         </div>
+
+        {statusMessage && (
+          <small className={statusType === "error" ? "error" : "success"}>
+            {statusMessage}
+          </small>
+        )}
+
         <button type="submit" className="primary-btn">
           Send Message
         </button>

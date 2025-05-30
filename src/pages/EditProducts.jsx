@@ -47,7 +47,7 @@ const EditProducts = ({ id, name, price, img }) => {
               value={newPrice}
               onChange={(e) => setNewPrice(e.target.value)}
               placeholder="New price"
-              style={{ width: "70%", marginTop: "10px" }}
+              style={{ marginLeft: "50px",width: "70%", marginTop: "10px" }}
               required
             />
             <button type="submit" className="primary-btn">
