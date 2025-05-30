@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    Cookies.set("cart", JSON.stringify(cart), { expires: 7 });
+    Cookies.set("cart", JSON.stringify(cart), { expires: 1 });
   }, [cart]);
 
   const addToCart = (item) => {

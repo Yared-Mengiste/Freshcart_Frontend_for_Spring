@@ -266,6 +266,7 @@ input[type="submit"]:active {
 
   .wrappouter {
   display: flex;
+  margin-top: 150px;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -340,6 +341,7 @@ input, textarea {
     border-radius: var(--border-radius);
     outline: none;
     transition: border-color 0.3s ease-in-out;
+    color: black;
 }
 input:focus, textarea:focus {  
   border-color: var(--secondary-color);

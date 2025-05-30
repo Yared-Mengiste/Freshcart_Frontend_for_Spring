@@ -102,7 +102,7 @@ const NavBar = () => {
                   <li>
                     <NavLink to="/contact">CONTACT</NavLink>
                   </li>
-                  {user.id && user.account_type === 2 && (
+                  {user.id && user.accountType === 'ADMIN' && (
                     <li>
                       <NavLink to="/admin">ADMIN</NavLink>
                     </li>

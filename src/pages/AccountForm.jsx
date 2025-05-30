@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import showObserver from "../animation";
-import md5 from "blueimp-md5";
-import data from "../json/data.json";
+import axiosInstance from "../api/axiosInstance.js";
 import "./home.css";
 
 const AccountForm = () => {
@@ -17,9 +16,9 @@ const AccountForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    address: "",
+    subcity: "",
     city: "",
-    phone: "",
+    phoneNo: "",
   });
 
   useEffect(() => {
@@ -31,15 +30,24 @@ const AccountForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isSignIn) {
-      const {
-        name, email, password, confirmPassword, address, city, phone
-      } = formData;
+    let requestData;
 
-      if (!name || !email || !password || !confirmPassword || !address || !city || !phone) {
+    if (!isSignIn) {
+      const { name, email, password, confirmPassword, subcity, city, phoneNo } =
+        formData;
+
+      if (
+        !name ||
+        !email ||
+        !password ||
+        !confirmPassword ||
+        !subcity ||
+        !city ||
+        !phoneNo
+      ) {
         setMessage("All fields are required.");
         return;
       }
@@ -48,29 +56,56 @@ const AccountForm = () => {
         setMessage("Passwords do not match.");
         return;
       }
+      if (password < 6) {
+        setMessage("Password must be at least 6 characters long.");
+        return;
+      }
 
-      
+      requestData = formData;
+    } else {
+      const { email, password } = formData;
+
+      if (!email || !password) {
+        setMessage("Email and password are required.");
+        return;
+      }
+
+      requestData = { email, password };
     }
 
     try {
-      const hashedPassword = md5(formData.password);
-
-      const foundUser = users.find(
-        (user) =>
-          user.email.toLowerCase() === formData.email.toLowerCase() &&
-          user.password === hashedPassword
-      );
-
-      if (foundUser) {
-        setMessage("");
-        login({ ...foundUser, password: formData.password }); // Keep plain password for session
-        navigate("/");
+      let response;
+      if (isSignIn) {
+        const url = "user/login";
+        response = await axiosInstance.post(url, requestData);
       } else {
-        setMessage("Invalid email or password.");
+        const url = "user/signup";
+        response = await axiosInstance.post(url, requestData);
+      }
+
+      if (response.data.message === "Login successful") {
+        login({ user: response.data.user, token: response.data.token });
+        navigate("/");
+      } else if (response.data.message === "Sign-up successful") {
+        setMessage("Sign-up successful! Please log in.");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          subcity: "",
+          city: "",
+          phoneNo: "",
+        });
+        setIsSignIn(true);
+      } else {
+        setMessage(response.data.message || "Something happened.");
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      setMessage("Failed to sign in. Please try again.");
+      console.error("Error:", error);
+      setMessage(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
@@ -147,12 +182,12 @@ const AccountForm = () => {
                 />
               </label>
               <label>
-                Phone:
+                phone:
                 <input
                   type="text"
-                  name="phone"
+                  name="phoneNo"
                   pattern="09[0-9]{8}"
-                  value={formData.phone}
+                  value={formData.phoneNo}
                   onChange={handleInputChange}
                   required
                 />
@@ -192,7 +227,7 @@ const AccountForm = () => {
               <label>
                 Subcity:
                 <select
-                  name="address"
+                  name="subcity"
                   value={formData.subcity}
                   onChange={handleInputChange}
                   required
