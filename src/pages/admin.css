@@ -1,5 +1,6 @@
 .admin-container{
     background-color: #ffffff;
+    margin-top: 100px;
 }
 .admin-container input, .admin-container select{
     /* style={{ maxWidth: "250px", height: "40px" }} */

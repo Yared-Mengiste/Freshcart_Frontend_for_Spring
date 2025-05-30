@@ -15,17 +15,17 @@ import data from "../src/json/data.json";
 import { CartProvider } from "./context/CartProvider";
 import { UserProvider } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
+import { useProducts } from "./context/ProductsProvider";
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(true);
+const { products: productsProvided } = useProducts(); // ✅ fixed
 
-  useEffect(() => {
-    const allProducts = data.tables.products;
-    setProducts(allProducts);
-    setLoading(false);
-  }, []);
-
+useEffect(() => {
+  setLoading(false);
+  setProducts(productsProvided); 
+}, [productsProvided]);
   if (loading) return <div>Loading...</div>;
 
   return (
