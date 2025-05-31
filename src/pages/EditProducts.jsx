@@ -18,7 +18,7 @@ const EditProducts = ({ id, name, price, img }) => {
   const updatePrice = async (e) => {
     e.preventDefault();
     try {
-      await updateProduct(id, { price: parseFloat(newPrice) });
+      await updateProduct(id, parseFloat(newPrice));
       alert("Price updated successfully!");
     } catch (error) {
       console.error("Failed to update price", error);

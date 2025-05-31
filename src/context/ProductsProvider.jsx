@@ -1,23 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const BASE_URL = "http://localhost:8081/api/products";
 
   // Fetch products on load
   useEffect(() => {
-    axios.get(BASE_URL)
+    axiosInstance.get('/products')
       .then(res => setProducts(res.data))
       .catch(err => console.error("Failed to fetch products:", err));
   }, []);
 
   // Add product
   const addProduct = async (productData) => {
+    console.log(productData)
     try {
-      const res = await axios.post(BASE_URL, productData);
+      const res = await axiosInstance.post('/products', productData);
       setProducts(prev => [...prev, res.data]);
     } catch (err) {
       console.error("Failed to add product:", err);
@@ -27,7 +27,7 @@ export const ProductsProvider = ({ children }) => {
   // Remove product
   const removeProduct = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/${id}`);
+      await axiosInstance.delete(`/products/${id}`);
       setProducts(prev => prev.filter(p => p.id !== id));
     } catch (err) {
       console.error("Failed to delete product:", err);
@@ -35,9 +35,10 @@ export const ProductsProvider = ({ children }) => {
   };
 
   // Update product
-  const updateProduct = async (id, updatedProduct) => {
+  const updateProduct = async (id, price) => {
     try {
-      const res = await axios.put(`${BASE_URL}/${id}`, updatedProduct);
+      const updatedProduct = products.find((item)=> id == item.id)
+      const res = await axiosInstance.put(`/products/${id}`, {...updatedProduct, price: price});
       setProducts(prev =>
         prev.map((p) => (p.id === id ? res.data : p))
       );

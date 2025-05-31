@@ -7,14 +7,15 @@ import "./category.css";
 import { useProducts } from "../context/ProductsProvider";
 
 const ManageProducts = () => {
+  const categoriesName = ['vegetable','fruit', 'cereal and grain', 'animal product']
   const { products, addProduct } = useProducts(); // ✅ use context
   const [newProduct, setNewProduct] = useState({
     name: "",
-    category: "2",
+    categoryId: "2",
     price: "",
     img: "",
   });
-
+  
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -40,12 +41,15 @@ const ManageProducts = () => {
     try {
       await addProduct({
         ...newProduct,
-        price: parseFloat(newProduct.price),
+        price: parseFloat(newProduct.price), 
+        stock: null, 
+        categoryName: categoriesName[parseInt(newProduct.categoryId)],
+        categoryId: parseInt(newProduct.categoryId)
       });
       alert("Product added successfully");
       setNewProduct({
         name: "",
-        category: "2",
+        categoryId: "2",
         price: "",
         img: "",
       });
@@ -57,7 +61,6 @@ const ManageProducts = () => {
 
   return (
     <section>
-      {console.log(products)}
       <div>
         <form className="new-product" onSubmit={createProduct}>
           <input
