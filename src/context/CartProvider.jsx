@@ -1,12 +1,7 @@
-// CartContext
-// Handles cart state globally — like adding, removing, and clearing cart items.
-// Helps persist cart state across pages.
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const CartContext = createContext();
-
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
@@ -20,7 +15,13 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (item) => {
-    setCart((prev) => [...prev, item]);
+    setCart((prev) => {
+      const exists = prev.find(cartItem => cartItem.id === item.id);
+      if (exists) {
+        return prev; // Do not add duplicate
+      }
+      return [...prev, item];
+    });
   };
 
   const removeFromCart = (itemId) => {

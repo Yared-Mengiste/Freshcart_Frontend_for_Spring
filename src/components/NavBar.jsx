@@ -4,8 +4,8 @@
 
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import CartItem from "./CartItem";
+import axiosInstance from "../api/axiosInstance";
 import Menu from "../assets/menu.png";
 import "./NavBar.css";
 import "./Search.css";
@@ -14,6 +14,7 @@ import Cart from "../assets/cart.png";
 import { useSearch } from "../context/SearchContext";
 import { useCart } from "../context/CartProvider";
 import { useUser } from "../context/UserContext";
+import dayjs from 'dayjs'
 
 const toggleCart = () => {
   const cart = document.querySelector(".cart-container");
@@ -46,28 +47,37 @@ const NavBar = () => {
     navigate("/");
   };
 
-  const sendToDB = async (e) => {
+  const sendToDB =  async (e) => {
     e.preventDefault();
-    if (cart.length > 0) {
-      const orderData = {
-        user_id: user.id,
-        city: user.city,
-        address: user.address,
-        total_price: cart.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0
-        ),
-        items: cart.map((item) => ({
-          id: item.id,
-          quantity: item.quantity,
-          price: item.price,
-        })),
-      };
-      alert("Order placed successfully!");
-      clearCart();
-    }
-  };
 
+  const orderPayload = {
+    userId: user.id,
+    totalPrice: cart.reduce(
+                  (a, item) => a + item.price * item.quantity,
+                  0
+                ),
+    status: "PROCESSING", 
+    items: cart.map(item => ({
+      productId: parseInt(item.id, 10),
+      quantity: parseInt(item.quantity, 10),
+      price: parseFloat(item.price)
+    }))
+  };
+  console.log("Order Payload:", orderPayload);
+
+  try {
+    const response = await axiosInstance.post('/orders', orderPayload);
+    console.log("Order placed:", response.data);
+    if(response.data.id){
+      clearCart()
+      alert('Successful Bought')
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Failed to place order:", error.data.code);
+    alert(error.data.code)
+  }
+};
   return (
     <section className="nav-section fixed top-0 left-0 z-50 w-full py-10 transition-all duration-500 max-lg:py-4">
       <header className="container flex h-14 items-center max-lg:px-5">
