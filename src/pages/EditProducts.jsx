@@ -5,7 +5,7 @@ import Delete from "../assets/deleteProduct.png";
 import { useMessage } from "../context/MessageContext";
 import showObserver from "../animation";
 
-const EditProducts = ({ id, name, price, img }) => {
+const EditProducts = ({ id, name, price, img, categoryId }) => {
   const [newPrice, setNewPrice] = useState(price);
   const { updateProduct, removeProduct } = useProducts();
   const {showMessage} = useMessage();
@@ -30,7 +30,13 @@ const EditProducts = ({ id, name, price, img }) => {
   const updatePrice = async (e) => {
     e.preventDefault();
     try {
-      await updateProduct(id, parseFloat(newPrice));
+      await updateProduct(id, {
+        id,
+        name,
+        price: parseFloat(newPrice),
+        img,
+        categoryId,
+      });
       showMessage(`${name} Price Updated`, "success");
     } catch (error) {
       console.error("Failed to update price", error);

@@ -8,16 +8,18 @@ import { useProducts } from "../context/ProductsProvider";
 import { useMessage } from "../context/MessageContext";
 
 const ManageProducts = () => {
-  const categoriesName = ['vegetable','fruit', 'cereal and grain', 'animal product']
-  const { products, addProduct } = useProducts(); 
-  const {showMessage} = useMessage();
+  const categoriesName = ['vegetable', 'fruit', 'cereal and grain', 'animal product'];
+  const { products, addProduct, updateProduct } = useProducts();
+  const { showMessage } = useMessage();
+
   const [newProduct, setNewProduct] = useState({
+    id: null,
     name: "",
     categoryId: "2",
     price: "",
     img: "",
   });
-  
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -26,12 +28,12 @@ const ManageProducts = () => {
   }, []);
 
   useEffect(() => {
-    if(!products)
-      return 
-     setFilteredProducts(products.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase()))
+    if (!products) return;
+    setFilteredProducts(
+      products.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      )
     );
-   ;
   }, [search, products]);
 
   const handleChange = (e) => {
@@ -43,21 +45,56 @@ const ManageProducts = () => {
     try {
       await addProduct({
         ...newProduct,
-        price: parseFloat(newProduct.price), 
-        stock: null, 
+        price: parseFloat(newProduct.price),
+        stock: null,
         categoryName: categoriesName[parseInt(newProduct.categoryId)],
-        categoryId: parseInt(newProduct.categoryId)
+        categoryId: parseInt(newProduct.categoryId),
       });
-      showMessage(`${newProduct.name} Added to Database`, "success");
-      setNewProduct({
-        name: "",
-        categoryId: "2",
-        price: "",
-        img: "",
-      });
+      showMessage(`${newProduct.name} added to database`, "success");
+      resetForm();
     } catch (err) {
       showMessage("Failed to add product", "error");
       console.error("Failed to add product:", err);
+    }
+  };
+
+  const updateExistingProduct = async () => {
+    try {
+      await updateProduct(newProduct.id,{
+        ...newProduct,
+        price: parseFloat(newProduct.price),
+        categoryId: parseInt(newProduct.categoryId),
+        categoryName: categoriesName[parseInt(newProduct.categoryId)],
+      });
+      showMessage(`${newProduct.name} updated successfully`, "success");
+      resetForm();
+    } catch (err) {
+      showMessage("Failed to update product", "error");
+      console.error("Update error:", err);
+    }
+  };
+
+  const resetForm = () => {
+    setNewProduct({
+      id: null,
+      name: "",
+      categoryId: "2",
+      price: "",
+      img: "",
+    });
+  };
+
+  const transferData = (e) => {
+    const productId = e.currentTarget.id;
+    const product = products.find((item) => item.id === parseInt(productId));
+    if (product) {
+      setNewProduct({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+        categoryId: product.categoryId.toString(),
+      });
     }
   };
 
@@ -84,8 +121,8 @@ const ManageProducts = () => {
             required
           />
           <select
-            name="category"
-            value={newProduct.category}
+            name="categoryId"
+            value={newProduct.categoryId}
             onChange={handleChange}
             required
           >
@@ -102,9 +139,30 @@ const ManageProducts = () => {
             placeholder="image"
             required
           />
-          <button className="primary-btn" type="submit">
-            Add
-          </button>
+
+          {newProduct.id === null ? (
+            <button className="primary-btn" type="submit">
+              Add
+            </button>
+          ) : (
+            <>
+              <button
+                className="primary-btn"
+                type="button"
+                onClick={updateExistingProduct}
+              >
+                Update
+              </button>
+              <button
+                className="secondary-btn"
+                type="button"
+                onClick={resetForm}
+                style={{ marginLeft: "10px" , paddingBottom: "10px !important"}}
+              >
+                Cancel
+              </button>
+            </>
+          )}
         </form>
       </div>
 
@@ -127,12 +185,18 @@ const ManageProducts = () => {
 
       <div className="category-products">
         {filteredProducts.map((product) => (
-          <div key={product.id}  className="hidden-sec">
+          <div
+            key={product.id}
+            id={product.id}
+            onClick={transferData}
+            className="hidden-sec"
+          >
             <EditProducts
               id={product.id}
               img={product.img}
               name={product.name}
               price={product.price}
+              categoryId={product.categoryId}
             />
           </div>
         ))}

@@ -36,10 +36,10 @@ export const ProductsProvider = ({ children }) => {
   };
 
   // Update product
-  const updateProduct = async (id, price) => {
+  const updateProduct = async (id, updatedProduct) => {
     try {
-      const updatedProduct = products.find((item)=> id == item.id)
-      const res = await axiosInstance.put(`/products/${id}`, {...updatedProduct, price: price});
+      // const updatedProduct = products.find((item)=> id == item.id)
+      const res = await axiosInstance.put(`/products/${id}`, updatedProduct);
       setProducts(prev =>
         prev.map((p) => (p.id === id ? res.data : p))
       );
