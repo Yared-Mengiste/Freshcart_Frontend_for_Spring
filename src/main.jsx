@@ -7,10 +7,12 @@ import { UserProvider } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
 import App from "./App";
 import { ProductsProvider } from "./context/ProductsProvider";
+import { MessageProvider } from "./context/MessageContext";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <ProductsProvider>
+      <MessageProvider>
       <CartProvider>
         <UserProvider>
           <SearchProvider>
@@ -18,6 +20,7 @@ createRoot(document.getElementById("root")).render(
           </SearchProvider>
         </UserProvider>
       </CartProvider>
+      </MessageProvider>
     </ProductsProvider>
   </BrowserRouter>
 );

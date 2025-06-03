@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useProducts } from "../context/ProductsProvider";
 import "../components/product.css";
+import Delete from "../assets/deleteProduct.png";
+import { useMessage } from "../context/MessageContext";
 import showObserver from "../animation";
 
 const EditProducts = ({ id, name, price, img }) => {
   const [newPrice, setNewPrice] = useState(price);
-  const { updateProduct } = useProducts(); // from context
-
-  // Update local input field when price prop changes
+  const { updateProduct, removeProduct } = useProducts();
+  const {showMessage} = useMessage();
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      try {
+        await removeProduct(id);
+        showMessage(`${name} Removed from Database`, "success");
+      } catch (error) {
+        console.error("Failed to delete product", error);
+        showMessage( `Failed to delete ${name}` , "error");
+      }
+    }
+  };
   useEffect(() => {
     setNewPrice(price);
   }, [price]);
@@ -19,43 +31,52 @@ const EditProducts = ({ id, name, price, img }) => {
     e.preventDefault();
     try {
       await updateProduct(id, parseFloat(newPrice));
-      alert("Price updated successfully!");
+      showMessage(`${name} Price Updated`, "success");
     } catch (error) {
       console.error("Failed to update price", error);
-      alert("Failed to update price.");
+      showMessage(`Failed to update ${name} Price`, "error");
     }
   };
 
   return (
     <div className="relation-container">
       <div className="product-card">
-        <img
-          src={`/images/${img}`}
-          alt={name}
-          className="product-image"
-        />
-        <div className="description">
-          <div>
-            <h3 className="product-name">{name}</h3>
-            <p className="product-price">${price} / kg</p>
-          </div>
-          <form onSubmit={updatePrice}>
-            <input
-              type="number"
-              min="0"
-              step="0.05"
-              value={newPrice}
-              onChange={(e) => setNewPrice(e.target.value)}
-              placeholder="New price"
-              style={{ marginLeft: "50px",width: "70%", marginTop: "10px" }}
-              required
-            />
-            <button type="submit" className="primary-btn">
-              Update
-            </button>
-          </form>
-        </div>
-      </div>
+  <div className="image-wrapper">
+    <img
+      src={`/images/${img}`}
+      alt={name}
+      className="product-image"
+    />
+    <button
+      type="button"
+      className="delete-btn icons"
+      onClick={handleDelete}
+    >
+      <img src={Delete} alt="Delete"  />
+    </button>
+  </div>
+  <div className="description">
+    <div>
+      <h3 className="product-name">{name}</h3>
+      <p className="product-price">${price} / kg</p>
+    </div>
+    <form onSubmit={updatePrice}>
+      <input
+        type="number"
+        min="0"
+        step="0.05"
+        value={newPrice}
+        onChange={(e) => setNewPrice(e.target.value)}
+        placeholder="New price"
+        style={{ marginLeft: "auto", width: "70%", marginTop: "10px" }}
+        required
+      />
+      <button type="submit" className="primary-btn">
+        Update
+      </button>
+    </form>
+  </div>
+</div>
     </div>
   );
 };

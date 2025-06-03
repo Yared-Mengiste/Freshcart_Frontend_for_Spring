@@ -88,4 +88,24 @@ h3.successfully-added{
     height: 20px;
     border-radius: 50%;
   }
+
+
+  .image-wrapper {
+  position: relative;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  height: 28px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  transform: scale(1.5);
+}
+
+.delete-btn:hover {
+ transform: scale(1.7);
+}
+
   

@@ -15,6 +15,7 @@ import { useSearch } from "../context/SearchContext";
 import { useCart } from "../context/CartProvider";
 import { useUser } from "../context/UserContext";
 import dayjs from 'dayjs'
+import { useMessage } from "../context/MessageContext";
 
 const toggleCart = () => {
   const cart = document.querySelector(".cart-container");
@@ -25,6 +26,7 @@ const NavBar = () => {
   const { setSearch } = useSearch();
   const { cart, removeFromCart, clearCart } = useCart();
   const { user, logout } = useUser();
+  const { showMessage} = useMessage();
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
 
@@ -49,13 +51,14 @@ const NavBar = () => {
 
   const sendToDB =  async (e) => {
     e.preventDefault();
+    let ttPrice = cart.reduce(
+                  (a, item) => a + item.price * item.quantity,
+                  0
+                )
 
   const orderPayload = {
     userId: user.id,
-    totalPrice: cart.reduce(
-                  (a, item) => a + item.price * item.quantity,
-                  0
-                ),
+    totalPrice: ttPrice,
     status: "PROCESSING", 
     items: cart.map(item => ({
       productId: parseInt(item.id, 10),
@@ -71,11 +74,13 @@ const NavBar = () => {
     if(response.data.id){
       clearCart()
       alert('Successful Bought')
+      showMessage(`${ttPrice} Birr Order is placed', 'success`);
     }
     return response.data;
   } catch (error) {
     console.error("Failed to place order:", error.data.code);
     alert(error.data.code)
+    showMessage('Failed to place order. Please try again.', 'error');
   }
 };
   return (

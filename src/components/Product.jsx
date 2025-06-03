@@ -6,23 +6,23 @@ import React, {useState} from "react";
 import  {useNavigate} from 'react-router-dom'
 import "./Product.css";
 import Plus from "../assets/plus.png";
+import { useMessage } from "../context/MessageContext";
 
 
 function Product(props) {
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+  const {showMessage} = useMessage()
 
   const addToCart = (e) => {
     e.preventDefault();
 
     if(props.login){props.addToCart({id: props.id, quantity: quantity, name: props.name, price: props.price});
+    showMessage(`Added ${quantity} kg ${props.name} to cart`, 'success');
     setQuantity(1);
-    document.querySelector('.successfully-added').style.display = 'block';
-    setTimeout(() => {
-      document.querySelector('.successfully-added').style.display = 'none';
-    }, 500);
   }else{
       console.log(' not logged in');
+      showMessage('Please login to add items to cart', 'error');
       navigate('/signin')
   }
 }

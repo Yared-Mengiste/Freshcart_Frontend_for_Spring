@@ -4,8 +4,7 @@
 // Password updates are hashed using MD5 (just for mock purposes).
 
 import React, { useState, useEffect } from "react";
-import md5 from "blueimp-md5";
-import data from "../json/data.json";
+import axiosInstance from "../api/axiosInstance";
 import "./admin.css";
 import "./home.css";
 import "./category.css";
@@ -16,7 +15,18 @@ const Users = () => {
   const [findUser, userSearch] = useState([]);
 
   useEffect(() => {
-    setUsers(data.tables.users);
+    
+    const fetchUsers = async () => {
+      try {
+      const res = await axiosInstance.get('/users');
+      console.log(res.data)
+      setUsers(res.data)
+    } catch (err) {
+      console.error("cant find product:", err);
+    }
+  }   
+
+    fetchUsers();
   }, []);
 
   useEffect(() => {
@@ -33,9 +43,9 @@ const Users = () => {
     e.preventDefault();
     const form = e.target;
     const userId = form.id;
-    const newPassword = md5(form.password.value);
+    const newPassword = form.password.value;
 
-    if (!newPassword || newPassword.length < 4) {
+    if (!newPassword || newPassword.length < 6) {
       alert("Password must be at least 4 characters.");
       return;
     }
@@ -78,10 +88,7 @@ const Users = () => {
           </thead>
           <tbody>
             {findUser.map((user) => {
-              const accountType =
-                data.tables.account_type.find(
-                  (type) => type.id === user.account_type
-                )?.name || "user";
+              
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
@@ -90,7 +97,7 @@ const Users = () => {
                   <td>{user.phone_no}</td>
                   <td>{user.city}</td>
                   <td>{user.subcity || user.address}</td>
-                  <td>{accountType}</td>
+                  <td>{user.accountType}</td>
                   <td>
                     <form id={user.id} onSubmit={updatePassword}>
                       <input

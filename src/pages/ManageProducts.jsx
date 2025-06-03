@@ -5,10 +5,12 @@ import "./admin.css";
 import "./home.css";
 import "./category.css";
 import { useProducts } from "../context/ProductsProvider";
+import { useMessage } from "../context/MessageContext";
 
 const ManageProducts = () => {
   const categoriesName = ['vegetable','fruit', 'cereal and grain', 'animal product']
-  const { products, addProduct } = useProducts(); // ✅ use context
+  const { products, addProduct } = useProducts(); 
+  const {showMessage} = useMessage();
   const [newProduct, setNewProduct] = useState({
     name: "",
     categoryId: "2",
@@ -26,10 +28,10 @@ const ManageProducts = () => {
   useEffect(() => {
     if(!products)
       return 
-    const result = products.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase())
+     setFilteredProducts(products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase()))
     );
-    setFilteredProducts(result);
+   ;
   }, [search, products]);
 
   const handleChange = (e) => {
@@ -46,7 +48,7 @@ const ManageProducts = () => {
         categoryName: categoriesName[parseInt(newProduct.categoryId)],
         categoryId: parseInt(newProduct.categoryId)
       });
-      alert("Product added successfully");
+      showMessage(`${newProduct.name} Added to Database`, "success");
       setNewProduct({
         name: "",
         categoryId: "2",
@@ -54,8 +56,8 @@ const ManageProducts = () => {
         img: "",
       });
     } catch (err) {
-      console.error("Failed to add product", err);
-      alert("Failed to add product");
+      showMessage("Failed to add product", "error");
+      console.error("Failed to add product:", err);
     }
   };
 
@@ -125,7 +127,7 @@ const ManageProducts = () => {
 
       <div className="category-products">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="hidden-sec">
+          <div key={product.id}  className="hidden-sec">
             <EditProducts
               id={product.id}
               img={product.img}

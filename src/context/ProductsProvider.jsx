@@ -21,6 +21,7 @@ export const ProductsProvider = ({ children }) => {
       setProducts(prev => [...prev, res.data]);
     } catch (err) {
       console.error("Failed to add product:", err);
+      setProducts([])
     }
   };
 
