@@ -6,42 +6,48 @@ const ProductsContext = createContext();
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // Fetch products on load
-  useEffect(() => {
-    axiosInstance.get('/products')
-      .then(res => setProducts(res.data))
-      .catch(err => console.error("Failed to fetch products:", err));
-  }, []);
-
-  // Add product
-  const addProduct = async (productData) => {
-    console.log(productData)
+  // ✅ Fetch products
+  const fetchProducts = async () => {
     try {
-      const res = await axiosInstance.post('/products', productData);
-      setProducts(prev => [...prev, res.data]);
+      const res = await axiosInstance.get('/products');
+      setProducts(res.data);
     } catch (err) {
-      console.error("Failed to add product:", err);
-      setProducts([])
+      console.error("Failed to fetch products:", err);
     }
   };
 
-  // Remove product
+  // 🟡 Fetch on initial load
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // ✅ Add product
+  const addProduct = async (productData) => {
+    try {
+      await axiosInstance.post('/products', productData);
+      await fetchProducts(); // 🔁 Refresh after add
+    } catch (err) {
+      console.error("Failed to add product:", err);
+    }
+  };
+
+  // ✅ Remove product
   const removeProduct = async (id) => {
     try {
       await axiosInstance.delete(`/products/${id}`);
-      setProducts(prev => prev.filter(p => p.id !== id));
+      await fetchProducts(); // 🔁 Refresh after delete
     } catch (err) {
       console.error("Failed to delete product:", err);
     }
   };
 
-  // Update product
+  // ✅ Update product
   const updateProduct = async (id, updatedProduct) => {
+    console.log("Updating product:", updatedProduct);
     try {
-      // const updatedProduct = products.find((item)=> id == item.id)
       const res = await axiosInstance.put(`/products/${id}`, updatedProduct);
-      setProducts(prev =>
-        prev.map((p) => (p.id === id ? res.data : p))
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? updatedProduct : p))
       );
     } catch (err) {
       console.error("Failed to update product:", err);

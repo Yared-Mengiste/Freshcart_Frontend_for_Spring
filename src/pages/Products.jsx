@@ -2,30 +2,45 @@
 // Shows products based on category or search results.
 // Pulls from local data.json and uses filters/search term.
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Product from "../components/Product";
 import { Link } from "react-router-dom";
 import showObserver from "../animation";
 import "./products.css";
-import data from "../json/data.json";
 import { useCart } from "../context/CartProvider";
 import { useUser } from "../context/UserContext";
+import { useProducts } from "../context/ProductsProvider";
 
 const Products = () => {
   const { addToCart } = useCart();
   const { user } = useUser();
   const login = !!user.id;
+  const { products } = useProducts();
+
+  // Use state for each category
+  const [vegetables, setVegetables] = useState([]);
+  const [fruits, setFruits] = useState([]);
+  const [cereals, setCereals] = useState([]);
+  const [animals, setAnimals] = useState([]);
 
   useEffect(() => {
     showObserver();
   }, []);
 
-  const products = data.tables.products;
-
-  const vegetables = products.filter((p) => p.category === 1).slice(0, 4);
-  const fruits = products.filter((p) => p.category === 2).slice(0, 4);
-  const cereals = products.filter((p) => p.category === 3).slice(0, 4);
-  const animals = products.filter((p) => p.category === 4).slice(0, 4);
+  useEffect(() => {
+    if (!Array.isArray(products) || products.length === 0) {
+      setVegetables([]);
+      setFruits([]);
+      setCereals([]);
+      setAnimals([]);
+      return;
+    }
+    setVegetables(products.filter((p) => p.categoryId === 1).slice(0, 4));
+    setFruits(products.filter((p) => p.categoryId === 2).slice(0, 4));
+    setCereals(products.filter((p) => p.categoryId === 3).slice(0, 4));
+    setAnimals(products.filter((p) => p.categoryId === 4).slice(0, 4));
+    console.log("Products loaded:", products);
+  }, [products]);
 
   return (
     <section>

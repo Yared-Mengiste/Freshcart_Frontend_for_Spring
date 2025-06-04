@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { LiaColumnsSolid } from 'react-icons/lia';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -18,6 +19,7 @@ export const CartProvider = ({ children }) => {
     setCart((prev) => {
       const exists = prev.find(cartItem => cartItem.id === item.id);
       if (exists) {
+        console.log('cart item:' , item);
         return prev; // Do not add duplicate
       }
       return [...prev, item];

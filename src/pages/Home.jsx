@@ -14,6 +14,7 @@ import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartProvider";
 import Product from "../components/Product";
 import data from "../json/data.json";
+import { useProducts } from "../context/ProductsProvider";
 
 const Home = () => {
   const { user } = useUser();
@@ -24,8 +25,8 @@ const Home = () => {
     showObserver();
   }, []);
 
-  const allProducts = data.tables.products;
-  const featuredProducts = allProducts.slice(0, 4);
+  const {products} = useProducts();
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <div>

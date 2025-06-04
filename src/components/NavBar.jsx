@@ -49,40 +49,48 @@ const NavBar = () => {
     navigate("/");
   };
 
-  const sendToDB =  async (e) => {
-    e.preventDefault();
-    let ttPrice = cart.reduce(
-                  (a, item) => a + item.price * item.quantity,
-                  0
-                )
+  const sendToChapa = async (e) => {
+  e.preventDefault();
 
-  const orderPayload = {
-    userId: user.id,
-    totalPrice: ttPrice,
-    status: "PROCESSING", 
-    items: cart.map(item => ({
-      productId: parseInt(item.id, 10),
-      quantity: parseInt(item.quantity, 10),
-      price: parseFloat(item.price)
-    }))
+  const tx_ref = 'txn-' + Date.now();
+  const ttPrice = cart.reduce((a, item) => a + item.price * item.quantity, 0);
+
+  const chapaPayload = {
+    amount: ttPrice.toString(),
+    currency: "ETB",
+    email: user.email,
+    first_name: user.name.split(" ")[0] || user.name,
+    last_name: user.name.split(" ")[1] || "Customer",
+    phone_number: user.phoneNo,
+    tx_ref: tx_ref,
+    return_url: `http://localhost:5173/payment-success?tx_ref=${tx_ref}`, // update port if needed
   };
-  console.log("Order Payload:", orderPayload);
 
   try {
-    const response = await axiosInstance.post('/orders', orderPayload);
-    console.log("Order placed:", response.data);
-    if(response.data.id){
-      clearCart()
-      alert('Successful Bought')
-      showMessage(`${ttPrice} Birr Order is placed', 'success`);
-    }
-    return response.data;
-  } catch (error) {
-    console.error("Failed to place order:", error.data.code);
-    alert(error.data.code)
-    showMessage('Failed to place order. Please try again.', 'error');
+    const response = await axiosInstance.post('/payments/pay', chapaPayload);
+    const checkoutUrl = response.data;
+
+    const orderPayload = {
+      tx_ref,
+      userId: user.id,
+      totalPrice: ttPrice,
+      status: "PROCESSING",
+      items: cart.map(item => ({
+        productId: parseInt(item.id),
+        quantity: parseInt(item.quantity),
+        price: parseFloat(item.price),
+      })),
+    };
+
+    // Save to localStorage for use after redirect
+    localStorage.setItem("order_payload", JSON.stringify(orderPayload));
+    window.location.href = checkoutUrl;
+  } catch (err) {
+    console.error("Chapa error", err);
+    alert("Payment initiation failed.");
   }
 };
+
   return (
     <section className="nav-section fixed top-0 left-0 z-50 w-full py-10 transition-all duration-500 max-lg:py-4">
       <header className="container flex h-14 items-center max-lg:px-5">
@@ -196,7 +204,7 @@ const NavBar = () => {
               })}
             </div>
             <div className="finalize-buy">
-              <form action="" onSubmit={sendToDB}>
+              <form action="" onSubmit={sendToChapa}>
                 <input
                   type="text"
                   placeholder="TeleBirr:0921431253"

@@ -16,40 +16,43 @@ import { CartProvider } from "./context/CartProvider";
 import { UserProvider } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
 import { useProducts } from "./context/ProductsProvider";
+import PaymentReturn from "./pages/PaymentReturn";
 
 function App() {
   const [products, setProducts] = useState([]);
-const [loading, setLoading] = useState(true);
-const { products: productsProvided } = useProducts(); // ✅ fixed
+  const [loading, setLoading] = useState(true);
+  const { products: productsProvided } = useProducts(); 
 
-useEffect(() => {
-  setLoading(false);
-  setProducts(productsProvided); 
-}, [productsProvided]);
+  useEffect(() => {
+    setLoading(false);
+    setProducts(productsProvided);
+    console.log("Products loaded:", productsProvided);
+  }, [productsProvided]);
   if (loading) return <div>Loading...</div>;
 
   return (
-          <div>
-            <NavBar />
-            <div>
-              <Routes>
-                <Route index path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/contact" element={<ContactForm />} />
-                <Route path="/products/:type" element={<Category />} />
-                <Route path="/products/search" element={<Category title="Search" />} />
-                <Route path="/signin" element={<AccountForm />} />
-                <Route path="/userProfile" element={<UserProfile />} />
-                <Route
-                  path="/admin"
-                  element={<Admin />}
-                />
-                <Route path="/orders" element={<UserOrders />} />
-                <Route path="*" element={<h1>Not Found</h1>} />
-              </Routes>
-              <Footer />
-            </div>
-          </div>
+    <div>
+      <NavBar />
+      <div>
+        <Routes>
+          <Route index path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/contact" element={<ContactForm />} />
+          <Route path="/products/:type" element={<Category />} />
+          <Route
+            path="/products/search"
+            element={<Category title="Search" />}
+          />
+          <Route path="/signin" element={<AccountForm />} />
+          <Route path="/userProfile" element={<UserProfile />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/orders" element={<UserOrders />} />
+          <Route path="/payment-success" element={<PaymentReturn />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
+        <Footer />
+      </div>
+    </div>
   );
 }
 

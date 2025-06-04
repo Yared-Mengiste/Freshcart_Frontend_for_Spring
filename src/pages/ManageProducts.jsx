@@ -48,7 +48,7 @@ const ManageProducts = () => {
         price: parseFloat(newProduct.price),
         stock: null,
         categoryName: categoriesName[parseInt(newProduct.categoryId)],
-        categoryId: parseInt(newProduct.categoryId),
+        categoryId: parseInt(newProduct.categoryId) - 1,
       });
       showMessage(`${newProduct.name} added to database`, "success");
       resetForm();
@@ -63,7 +63,7 @@ const ManageProducts = () => {
       await updateProduct(newProduct.id,{
         ...newProduct,
         price: parseFloat(newProduct.price),
-        categoryId: parseInt(newProduct.categoryId),
+        categoryId: parseInt(newProduct.categoryId) - 1,
         categoryName: categoriesName[parseInt(newProduct.categoryId)],
       });
       showMessage(`${newProduct.name} updated successfully`, "success");

@@ -26,3 +26,35 @@
     color: red;
     font-weight: bold;
   }
+  .clickable-row {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.clickable-row:hover {
+  background-color: #f0f0f0;
+}
+
+.order-items-row td {
+  background-color: #fefefe;
+  padding: 10px;
+  font-size: 0.9rem;
+}
+.order-items-row ul {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.order-items-row li {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 8px 12px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.order-items-row li strong {
+  font-weight: 600;
+  color: #222;
+}
