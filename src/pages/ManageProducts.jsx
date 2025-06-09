@@ -8,7 +8,13 @@ import { useProducts } from "../context/ProductsProvider";
 import { useMessage } from "../context/MessageContext";
 
 const ManageProducts = () => {
-  const categoriesName = ['vegetable', 'fruit', 'cereal and grain', 'animal product'];
+  const categoryMap = {
+    1: "vegetable",
+    2: "fruit",
+    3: "cereal and grain",
+    4: "animal product",
+  };
+
   const { products, addProduct, updateProduct } = useProducts();
   const { showMessage } = useMessage();
 
@@ -43,12 +49,13 @@ const ManageProducts = () => {
   const createProduct = async (e) => {
     e.preventDefault();
     try {
+      const categoryId = parseInt(newProduct.categoryId);
       await addProduct({
         ...newProduct,
         price: parseFloat(newProduct.price),
         stock: null,
-        categoryName: categoriesName[parseInt(newProduct.categoryId)],
-        categoryId: parseInt(newProduct.categoryId) - 1,
+        categoryId,
+        categoryName: categoryMap[categoryId],
       });
       showMessage(`${newProduct.name} added to database`, "success");
       resetForm();
@@ -60,11 +67,12 @@ const ManageProducts = () => {
 
   const updateExistingProduct = async () => {
     try {
-      await updateProduct(newProduct.id,{
+      const categoryId = parseInt(newProduct.categoryId);
+      await updateProduct(newProduct.id, {
         ...newProduct,
         price: parseFloat(newProduct.price),
-        categoryId: parseInt(newProduct.categoryId) - 1,
-        categoryName: categoriesName[parseInt(newProduct.categoryId)],
+        categoryId,
+        categoryName: categoryMap[categoryId],
       });
       showMessage(`${newProduct.name} updated successfully`, "success");
       resetForm();
@@ -126,8 +134,8 @@ const ManageProducts = () => {
             onChange={handleChange}
             required
           >
-            <option value="2">Fruit</option>
             <option value="1">Vegetable</option>
+            <option value="2">Fruit</option>
             <option value="3">Cereal Grain</option>
             <option value="4">Animal Products</option>
           </select>
@@ -157,7 +165,7 @@ const ManageProducts = () => {
                 className="secondary-btn"
                 type="button"
                 onClick={resetForm}
-                style={{ marginLeft: "10px" , paddingBottom: "10px !important"}}
+                style={{ marginLeft: "10px" }}
               >
                 Cancel
               </button>

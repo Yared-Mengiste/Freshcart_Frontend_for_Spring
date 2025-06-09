@@ -11,6 +11,9 @@ import ContactForm from "./pages/ContactForm";
 import UserProfile from "./pages/UserProfile";
 import UserOrders from "./pages/Delivery"; // Renamed to be more descriptive
 import Admin from "./pages/Admin";
+import ManageProducts from "./pages/ManageProducts";
+import Users from "./pages/Users";
+import Orders from "./pages/Orders";
 import data from "../src/json/data.json";
 import { CartProvider } from "./context/CartProvider";
 import { UserProvider } from "./context/UserContext";
@@ -21,7 +24,7 @@ import PaymentReturn from "./pages/PaymentReturn";
 function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { products: productsProvided } = useProducts(); 
+  const { products: productsProvided } = useProducts();
 
   useEffect(() => {
     setLoading(false);
@@ -45,7 +48,13 @@ function App() {
           />
           <Route path="/signin" element={<AccountForm />} />
           <Route path="/userProfile" element={<UserProfile />} />
-          <Route path="/admin" element={<Admin />} />
+          {/* NESTED ADMIN ROUTES */}
+          <Route path="/admin" element={<Admin />}>
+            <Route index element={<ManageProducts />} />
+            <Route path="products" element={<ManageProducts />} />
+            <Route path="users" element={<Users />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
           <Route path="/orders" element={<UserOrders />} />
           <Route path="/payment-success" element={<PaymentReturn />} />
           <Route path="*" element={<h1>Not Found</h1>} />

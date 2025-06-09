@@ -50,8 +50,13 @@ const PaymentReturnPage = () => {
             console.log("Order placed:", response.data);
             if (response.data.id) {
               clearCart();
-              alert("Successful Bought");
-              navigate("/products");
+              alert(
+                `Purchase Successful!\n\n` +
+                  `Amount: ${data.data.amount} ${data.data.currency}\n` +
+                  `Reference: ${data.data.reference}\n` +
+                  `Email: ${data.data.email}`
+              );
+              navigate("/");
               showMessage(`${ttPrice} Birr Order is placed`, "success");
               localStorage.removeItem("order_payload");
             }
@@ -65,7 +70,7 @@ const PaymentReturnPage = () => {
           console.error("Payment verification failed", data);
           showMessage("Payment verification failed.", "error");
           setTimeout(() => {
-            navigate("/");
+            navigate("/products");
           }, 3000);
         }
       } catch (err) {
