@@ -4,10 +4,12 @@ import { useUser } from "../context/UserContext";
 import showObserver from "../animation";
 import axiosInstance from "../api/axiosInstance.js";
 import "./home.css";
+import { useMessage } from "../context/MessageContext";
 
 const AccountForm = () => {
   const { login } = useUser();
   const navigate = useNavigate();
+  const {showMessage} = useMessage();
 
   const [isSignIn, setIsSignIn] = useState(true);
   const [message, setMessage] = useState("");

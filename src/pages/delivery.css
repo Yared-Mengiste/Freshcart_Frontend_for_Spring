@@ -1,5 +1,6 @@
 .user-orders {
     padding: 20px;
+    min-height: 80vh;
   }
   
   table {
@@ -58,3 +59,15 @@
   font-weight: 600;
   color: #222;
 }
+.toggle-icon {
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  width: 30px;
+}
+
+.clickable-row:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+

@@ -29,9 +29,9 @@ const UserOrders = () => {
 
   const toggleOrderDetails = async (orderId) => {
     if (expandedOrderId === orderId) {
-      setExpandedOrderId(null); // collapse
+      setExpandedOrderId(null);
     } else {
-      setExpandedOrderId(orderId); // expand
+      setExpandedOrderId(orderId);
       if (!orderItemsCache[orderId]) {
         try {
           const response = await axiosInstance.get(`/items/${orderId}`);
@@ -50,12 +50,13 @@ const UserOrders = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <section>
+    <section style={{ marginTop: "100px" }}>
       <div className="user-orders">
         <h2>Your Deliveries</h2>
         <table>
           <thead>
             <tr>
+              <th></th> {/* Toggle column */}
               <th>Order ID</th>
               <th>Driver Name</th>
               <th>Driver Phone</th>
@@ -72,6 +73,9 @@ const UserOrders = () => {
                   onClick={() => toggleOrderDetails(delivery.orderId)}
                   className="clickable-row"
                 >
+                  <td className="toggle-icon">
+                    {expandedOrderId === delivery.orderId ? "−" : "+"}
+                  </td>
                   <td>{delivery.orderId}</td>
                   <td>{delivery.driverName}</td>
                   <td>{delivery.driverPhone}</td>
@@ -82,16 +86,21 @@ const UserOrders = () => {
                 </tr>
                 {expandedOrderId === delivery.orderId && (
                   <tr className="order-items-row">
-                    <td colSpan="7">
+                    <td colSpan="8">
                       {orderItemsCache[delivery.orderId]?.length > 0 ? (
                         <ul>
-                          <li><strong>Product Name</strong> <strong>Price</strong></li>
-                          {orderItemsCache[delivery.orderId].map((item, index) => (
-                            <li key={index}>
-                              <strong>{item.productName}</strong> – {item.quantity} Kg × {item.price} ={" "}
-                              {(item.quantity * item.price).toFixed(2)}
-                            </li>
-                          ))}
+                          <li>
+                            <strong>Product Name</strong> <strong>Price</strong>
+                          </li>
+                          {orderItemsCache[delivery.orderId].map(
+                            (item, index) => (
+                              <li key={index}>
+                                <strong>{item.productName}</strong> –{" "}
+                                {item.quantity} Kg × {item.price} ={" "}
+                                {(item.quantity * item.price).toFixed(2)}
+                              </li>
+                            )
+                          )}
                         </ul>
                       ) : (
                         <div>No items found.</div>

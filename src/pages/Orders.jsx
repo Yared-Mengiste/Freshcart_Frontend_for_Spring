@@ -55,6 +55,7 @@ const Orders = () => {
         <table>
           <thead>
             <tr>
+              <th></th> 
               <th>User ID</th>
               <th>Order ID</th>
               <th>Driver Name</th>
@@ -72,6 +73,9 @@ const Orders = () => {
                   onClick={() => toggleOrderDetails(delivery.orderId)}
                   className="clickable-row"
                 >
+                  <td className="toggle-icon">
+                    {expandedOrderId === delivery.orderId ? "−" : "+"}
+                  </td>
                   <td>{delivery.userId}</td>
                   <td>{delivery.orderId}</td>
                   <td>{delivery.driverName}</td>
@@ -83,16 +87,21 @@ const Orders = () => {
                 </tr>
                 {expandedOrderId === delivery.orderId && (
                   <tr className="order-items-row">
-                    <td colSpan="8">
+                    <td colSpan="9">
                       {orderItemsCache[delivery.orderId]?.length > 0 ? (
                         <ul>
-                          <li><strong>Product Name</strong> <strong>Price</strong></li>
-                          {orderItemsCache[delivery.orderId].map((item, index) => (
-                            <li key={index}>
-                              <strong>{item.productName}</strong> – {item.quantity} Kg × {item.price} ={" "}
-                              {(item.quantity * item.price).toFixed(2)}
-                            </li>
-                          ))}
+                          <li>
+                            <strong>Product Name</strong> <strong>Price</strong>
+                          </li>
+                          {orderItemsCache[delivery.orderId].map(
+                            (item, index) => (
+                              <li key={index}>
+                                <strong>{item.productName}</strong> –{" "}
+                                {item.quantity} Kg × {item.price} ={" "}
+                                {(item.quantity * item.price).toFixed(2)}
+                              </li>
+                            )
+                          )}
                         </ul>
                       ) : (
                         <div>No items found.</div>
