@@ -33,7 +33,6 @@ This web frontend allows:
 - **React Router** — page routing
 - **Context API** — for global state management (user, cart, search, and product data)
 - **Axios** — for HTTP requests
-- **Blueimp MD5** — for hashing passwords
 - **React Icons / Ionicons** — for visual elements
 - **CSS Modules** — component styling
 - **Vite** — fast development server and build tool
