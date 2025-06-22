@@ -1,79 +1,39 @@
 # 🛒 FreshCart Frontend
 
-**FreshCart** is a full-featured grocery delivery web application frontend built with **React.js**. It connects users to nearby supermarkets offering fresh plant- and animal-based products like fruits, vegetables, grains, and dairy. The frontend enables both customer and admin interactions such as ordering, managing products, and tracking deliveries.
+**FreshCart Frontend** is a modern React.js web application for ordering plant-based and animal products from nearby supermarkets. It integrates with a Spring Boot backend and provides a full e-commerce experience with customer and admin interfaces.
 
 ---
 
-## 🌐 What This Project Does
+## 🚀 Features
 
-This web frontend allows:
+### 🧑‍💻 User Features
+- 🔍 **Search Products** – Search by name using real-time filtering.
+- 🛒 **Add to Cart** – Browse by category and add products to your cart.
+- 💸 **Checkout & Payment** – Place orders and pay via **Chapa** or **Telebirr**.
+- 📦 **Order Tracking** – View your delivery info and previous orders.
+- 👤 **User Profile** – Edit name, address, and other personal info.
+- 🍪 **Persistent State** – Cart items and login info are stored in cookies.
+- 📬 **Contact Us** – Send suggestions or inquiries using the form.
 
-- Customers to:
-
-  - 🛍️ Browse and filter products by category (vegetables, fruits, cereals, animal products)
-  - 🔍 Search for products
-  - 🛒 Add items to cart and proceed to checkout
-  - 💳 Pay using **Chapa** or **Telebirr**
-  - 🚚 View delivery info and past orders
-  - 📬 Submit suggestions or feedback via contact form
-  - 👤 Edit their profile
-  - 🍪 Stay logged in and keep cart items via cookies
-
-- Admins to:
-  - ➕ Add, update, or delete products
-  - 👥 View users and their details
-  - 🔑 Reset user passwords (with future email-based update support)
-  - 📦 View all orders
+### 🛠️ Admin Features
+- ➕ Add / 📝 Edit / ❌ Delete products
+- 👀 View all users and update their passwords
+- 📊 View all customer orders
+- 💾 Manages products locally with future DB/API expansion support
 
 ---
 
-## ⚙️ Tech Stack
+## 🧰 Tech Stack
 
-- **React.js** — frontend library
-- **React Router** — page routing
-- **Context API** — for global state management (user, cart, search, and product data)
-- **Axios** — for HTTP requests
-- **React Icons / Ionicons** — for visual elements
-- **CSS Modules** — component styling
-- **Vite** — fast development server and build tool
-
----
-
-## 📁 Folder Structure (Simplified)
-
-```
-src/
-├── components/       # Reusable UI components (NavBar, Footer, Product)
-├── pages/            # All page components (Home, Admin, Products, etc.)
-├── context/          # Context providers (UserContext, CartContext, etc.)
-├── json/             # Temporary mock data source (data.json)
-├── assets/           # Static images and icons
-├── App.jsx           # Main component with routing
-├── main.jsx          # React DOM entry point
-```
+| Frontend       | Description                           |
+|----------------|---------------------------------------|
+| React.js       | UI framework                          |
+| React Router   | Client-side routing                   |
+| Axios          | HTTP client for API calls             |
+| Context API    | Global state management               |
+| Cookies        | Store cart and user info locally      |
 
 ---
 
-## 🛠 Features Overview
+## 🗂 Project Structure
 
-| Feature              | Description                                                |
-| -------------------- | ---------------------------------------------------------- |
-| 🛍 Product Categories | Filter by Vegetables, Fruits, Cereals, or Animal Products  |
-| 🔍 Search Bar        | Live filtering of products using search term               |
-| 🛒 Cart System       | Add/remove items, calculate total, and store using cookies |
-| 🧾 Order Checkout    | Submit cart with payment number via Chapa or Telebirr      |
-| 📦 Order Tracking    | Track your delivery status from the user dashboard         |
-| 👤 Profile Editing   | Change user details easily from the profile page           |
-| 🧑‍💼 Admin Panel       | Admin access to add/update/delete products, manage users   |
-| 🔐 Authentication    | Simple hashed login system using email and MD5             |
-
----
-
-## 🔄 Future Improvements
-
-- Replace `data.json` with real-time database integration
-- Improve authentication with secure token-based login
-- Enable email-based password recovery
-- Implement pagination and performance optimizations
-
----
