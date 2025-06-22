@@ -8,11 +8,13 @@ import axiosInstance from "../api/axiosInstance";
 import "./admin.css";
 import "./home.css";
 import "./category.css";
+import { useMessage } from "../context/MessageContext";
 
 const Users = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [findUser, userSearch] = useState([]);
+  const { showMessage } = useMessage();
 
   useEffect(() => {
     
@@ -46,11 +48,12 @@ const Users = () => {
     const newPassword = form.password.value;
 
     if (!newPassword || newPassword.length < 6) {
-      alert("Password must be at least 4 characters.");
+      showMessage("Password must be at least 6 characters.", "error");
       return;
     }
 
-    alert(`Password updated successfully for user ID ${userId}`);
+    showMessage(`Password updated successfully for user ID ${userId}`, "success");
+
     form.reset();
   };
 

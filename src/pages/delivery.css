@@ -70,4 +70,18 @@
   background-color: #f9f9f9;
   cursor: pointer;
 }
+.deliver-button {
+  margin-top: 1rem;
+  padding: 8px 16px;
+  background-color: #0a8754;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deliver-button:hover {
+  background-color: #0d5c38;
+}
+
 

@@ -20,6 +20,7 @@ import { UserProvider } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
 import { useProducts } from "./context/ProductsProvider";
 import PaymentReturn from "./pages/PaymentReturn";
+import DriverOrders from "./pages/DriverOrders";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -48,7 +49,6 @@ function App() {
           />
           <Route path="/signin" element={<AccountForm />} />
           <Route path="/userProfile" element={<UserProfile />} />
-          {/* NESTED ADMIN ROUTES */}
           <Route path="/admin" element={<Admin />}>
             <Route index element={<ManageProducts />} />
             <Route path="products" element={<ManageProducts />} />
@@ -56,6 +56,7 @@ function App() {
             <Route path="orders" element={<Orders />} />
           </Route>
           <Route path="/orders" element={<UserOrders />} />
+          <Route path="/deliveries" element={<DriverOrders />} />
           <Route path="/payment-success" element={<PaymentReturn />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

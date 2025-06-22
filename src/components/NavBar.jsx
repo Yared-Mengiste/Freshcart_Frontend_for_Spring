@@ -130,6 +130,11 @@ const NavBar = () => {
                       <NavLink to="/admin">ADMIN</NavLink>
                     </li>
                   )}
+                  {user.id && user.accountType === 'DRIVER' && (
+                    <li>
+                      <NavLink to="/deliveries">ORDERS</NavLink>
+                    </li>
+                  )}
                 </ul>
               </nav>
             </div>

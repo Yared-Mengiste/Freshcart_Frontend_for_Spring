@@ -9,11 +9,9 @@ import { useMessage } from "../context/MessageContext";
 const AccountForm = () => {
   const { login } = useUser();
   const navigate = useNavigate();
-  const {showMessage} = useMessage();
+  const { showMessage } = useMessage();
 
   const [isSignIn, setIsSignIn] = useState(true);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState(""); // success | error
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,134 +27,104 @@ const AccountForm = () => {
     showObserver();
   }, []);
 
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setMessageType("");
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^09\d{8}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^09\d{8}$/;
 
-  let requestData;
+    let requestData;
 
-  if (!isSignIn) {
-    const { name, email, password, confirmPassword, subcity, city, phoneNo } =
-      formData;
+    if (!isSignIn) {
+      const { name, email, password, confirmPassword, subcity, city, phoneNo } = formData;
 
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !subcity ||
-      !city ||
-      !phoneNo
-    ) {
-      setMessage("All fields are required.");
-      setMessageType("error");
-      return;
-    }
+      if (!name || !email || !password || !confirmPassword || !subcity || !city || !phoneNo) {
+        showMessage("All fields are required.", "error");
+        return;
+      }
 
-    if (!emailRegex.test(email)) {
-      setMessage("Invalid email format.");
-      setMessageType("error");
-      return;
-    }
+      if (!emailRegex.test(email)) {
+        showMessage("Invalid email format.", "error");
+        return;
+      }
 
-    if (!phoneRegex.test(phoneNo)) {
-      setMessage("Phone number must start with 09 and be 10 digits long.");
-      setMessageType("error");
-      return;
-    }
+      if (!phoneRegex.test(phoneNo)) {
+        showMessage("Phone number must start with 09 and be 10 digits long.", "error");
+        return;
+      }
 
-    if (password.length < 6) {
-      setMessage("Password must be at least 6 characters long.");
-      setMessageType("error");
-      return;
-    }
+      if (password.length < 6) {
+        showMessage("Password must be at least 6 characters long.", "error");
+        return;
+      }
 
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
-      setMessageType("error");
-      return;
-    }
+      if (password !== confirmPassword) {
+        showMessage("Passwords do not match.", "error");
+        return;
+      }
 
-    requestData = formData;
+      requestData = formData;
 
-  } else {
-    const { email, password } = formData;
-
-    if (!email || !password) {
-      setMessage("Email and password are required.");
-      setMessageType("error");
-      return;
-    }
-
-    if (!emailRegex.test(email)) {
-      setMessage("Invalid email format.");
-      setMessageType("error");
-      return;
-    }
-
-    if (password.length < 6) {
-      setMessage("Password must be at least 6 characters long.");
-      setMessageType("error");
-      return;
-    }
-
-    requestData = { email, password };
-  }
-
-  try {
-    let response;
-    if (isSignIn) {
-      response = await axiosInstance.post("users/login", requestData);
     } else {
-      response = await axiosInstance.post("users/register", requestData);
+      const { email, password } = formData;
+
+      if (!email || !password) {
+        showMessage("Email and password are required.", "error");
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        showMessage("Invalid email format.", "error");
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage("Password must be at least 6 characters long.", "error");
+        return;
+      }
+
+      requestData = { email, password };
     }
 
-    if (response.data.message === "Login successful") {
-      login({ user: response.data.user, token: response.data.token });
-      navigate("/");
-    } else if (response.data.message === "Sign-up successful") {
-      setMessage("Sign-up successful! Please log in.");
-      setMessageType("success");
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        subcity: "",
-        city: "",
-        phoneNo: "",
-      });
-      setIsSignIn(true);
-    } else {
-      setMessage(response.data.message || "Something happened.");
-      setMessageType("error");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    setMessage(
-      error.response?.data?.message || "An error occurred. Please try again."
-    );
-    setMessageType("error");
-  }
-};
+    try {
+      let response;
+      if (isSignIn) {
+        response = await axiosInstance.post("users/login", requestData);
+      } else {
+        response = await axiosInstance.post("users/register", requestData);
+      }
 
+      if (response.data.message === "Login successful") {
+        login({ user: response.data.user, token: response.data.token });
+        navigate("/");
+      } else if (response.data.message === "Sign-up successful") {
+        showMessage("Sign-up successful! Please log in.", "success");
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          subcity: "",
+          city: "",
+          phoneNo: "",
+        });
+        setIsSignIn(true);
+      } else {
+        showMessage(response.data.message || "Something happened.", "error");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showMessage(
+        error.response?.data?.message || "An error occurred. Please try again.",
+        "error"
+      );
+    }
+  };
 
   return (
     <div className="wrappouter hidden-sec">
@@ -180,8 +148,6 @@ const AccountForm = () => {
         </div>
 
         <div className="belowbutton">
-          {message && <p className={`message ${messageType}`}>{message}</p>}
-
           {isSignIn ? (
             <form className="sign-in-form" onSubmit={handleSubmit}>
               <label>

@@ -6,7 +6,6 @@ const ProductsContext = createContext();
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // ✅ Fetch products
   const fetchProducts = async () => {
     try {
       const res = await axiosInstance.get('/products');
@@ -16,22 +15,19 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  // 🟡 Fetch on initial load
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // ✅ Add product
   const addProduct = async (productData) => {
     try {
       await axiosInstance.post('/products', productData);
-      await fetchProducts(); // 🔁 Refresh after add
+      await fetchProducts(); 
     } catch (err) {
       console.error("Failed to add product:", err);
     }
   };
 
-  // ✅ Remove product
   const removeProduct = async (id) => {
     try {
       await axiosInstance.delete(`/products/${id}`);
@@ -41,7 +37,6 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
-  // ✅ Update product
   const updateProduct = async (id, updatedProduct) => {
     console.log("Updating product:", updatedProduct);
     try {
