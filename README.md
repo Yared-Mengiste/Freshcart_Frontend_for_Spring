@@ -52,7 +52,7 @@
 
 ### Admin
 <p align="center">
-  <img src="screenshots/admin_products.png" width="600" />
+  <img src="screenshots/admin_page_products.png" width="600" />
 </p>
 
 
