@@ -33,7 +33,4 @@
 | Context API    | Global state management               |
 | Cookies        | Store cart and user info locally      |
 
----
-
-## 🗂 Project Structure
 
