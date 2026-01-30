@@ -42,7 +42,7 @@
 
 ### Products
 <p align="center">
-  <img src="screenshots/products.png" width="600" />
+  <img src="screenshots/products_page.png" width="600" />
 </p>
 
 ### User Orders
