@@ -33,4 +33,27 @@
 | Context API    | Global state management               |
 | Cookies        | Store cart and user info locally      |
 
+## Screenshots
+
+### Home page
+<p align="center">
+  <img src="screenshots/home_page.png" width="600" />
+</p>
+
+### Products
+<p align="center">
+  <img src="screenshots/products.png" width="600" />
+</p>
+
+### User Orders
+<p align="center">
+  <img src="screenshots/user_orders.png" width="600" />
+</p>
+
+### Admin
+<p align="center">
+  <img src="screenshots/admin_products.png" width="600" />
+</p>
+
+
 
