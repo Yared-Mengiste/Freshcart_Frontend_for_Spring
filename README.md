@@ -31,7 +31,7 @@
 | React Router   | Client-side routing                   |
 | Axios          | HTTP client for API calls             |
 | Context API    | Global state management               |
-| Cookies        | Store cart and user info locally      |
+| Cookies        | Store cart and user info securely     |
 
 ## Screenshots
 
