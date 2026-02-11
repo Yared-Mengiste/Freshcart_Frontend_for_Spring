@@ -1,4 +1,4 @@
-# 🛒 FreshCart Frontend
+# 🛒 FreshCart Frontend For Spring
 
 **FreshCart Frontend** is a modern React.js web application for ordering plant-based and animal products from nearby supermarkets. It integrates with a Spring Boot backend and provides a full e-commerce experience with customer and admin interfaces.
 
