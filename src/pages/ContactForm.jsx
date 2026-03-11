@@ -13,6 +13,7 @@ const ContactForm = () => {
 
   const [statusMessage, setStatusMessage] = useState("");
   const [statusType, setStatusType] = useState(""); // "success" or "error"
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:8081/api';
 
   useEffect(() => {
     showObserver();
@@ -44,7 +45,7 @@ const ContactForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8081/api/contacts", formData);
+      const response = await axios.post(`${apiUrl}/api/contacts`, formData);
       setStatusMessage("Message sent successfully!");
       setStatusType("success");
 
