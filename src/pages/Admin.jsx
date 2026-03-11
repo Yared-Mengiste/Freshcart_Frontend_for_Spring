@@ -6,7 +6,6 @@ import "./admin.css";
 import "./home.css";
 import "./category.css";
 import { useNavigate } from 'react-router-dom'
-import { on } from "ws";
 
 const Admin = () => {
   const [onUsers, changeTo] = useState('Products');
