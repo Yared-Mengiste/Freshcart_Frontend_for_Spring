@@ -29,7 +29,6 @@ const NavBar = () => {
   const { showMessage} = useMessage();
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:8081';
 
   useEffect(() => {
     if (searchText.trim().length > 0) {
@@ -64,7 +63,7 @@ const NavBar = () => {
     last_name: user.name.split(" ")[1] || "Customer",
     phone_number: user.phoneNo,
     tx_ref: tx_ref,
-    return_url: `${apiUrl}payment-success?tx_ref=${tx_ref}`, // update port if needed
+    return_url: `https://freshcart-frontend-for-spring.vercel.app/payment-success?tx_ref=${tx_ref}`, // update port if needed
   };
 
   try {
